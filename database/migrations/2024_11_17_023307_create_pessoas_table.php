@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('pessoas', function (Blueprint $table) {
             $table->id();//pk
             $table->foreignId('status_id')->constrained('status')->onDelete('cascade');//fk
-            $table->foreignId('tipo_pessoa_id')->constrained('tipos_pessoas')->onDelete('cascade');//fk
             $table->string('nome', 80);
             $table->string('logradouro', 80)->nullable();
             $table->string('numero', 10)->nullable();
