@@ -15,14 +15,38 @@ class PessoaTipoSeeder extends Seeder
      */
     public function run(): void
     {
+
+        $relacionamentos_pessoa_tipo = [
+            1  => [1,5],
+            2  => [1,5],
+            3  => [6,1],
+            4  => [6],
+            5  => [1,7],
+            6  => [1,7],
+            7  => [1],
+            8  => [1],
+            9  => [2,4],
+            10 => [2,4],
+            11 => [4],
+            12 => [2,3],
+            13 => [2,3],
+            14 => [3],
+            15 => [2],
+            16 => [2],
+        ];
+
         //insere relacionamento fake
-        for ($i = 0; $i < 15; $i++) {
-            DB::table("pessoas_tipos")->insert([
-                    'numeracao' => PessoaTipo::max('numeracao') + 1,
-                    'pessoa_id' => Pessoa::all()->random()->id,
-                    'tipo_pessoa_id' => TipoPessoa::all()->random()->id,
-                ]
-            );
+        foreach ($relacionamentos_pessoa_tipo as $pessoa => $relacionamento)
+        {
+            foreach ($relacionamento as $tipo_pessoa)
+            {
+                DB::table("pessoas_tipos")->insert([
+                        'numeracao' => PessoaTipo::max('numeracao') + 1,
+                        'pessoa_id' => $pessoa,
+                        'tipo_pessoa_id' => $tipo_pessoa,
+                    ]
+                );
+            }
         }
     }
 }

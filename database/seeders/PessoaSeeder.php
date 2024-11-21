@@ -16,7 +16,7 @@ class PessoaSeeder extends Seeder
     {
         $faker = fake('pt_BR');
         //insere clientes fake
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 16; $i++) {
             $nome = $faker->unique()->firstName() . " " . $faker->unique()->lastName();
             DB::table("pessoas")->insert([
                     'status_id' => Status::all()->random()->id,
