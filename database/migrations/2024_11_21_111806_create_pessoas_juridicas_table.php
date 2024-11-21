@@ -13,7 +13,15 @@ return new class extends Migration
     {
         Schema::create('pessoas_juridicas', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('pessoa_id')->constrained('pessoas')->onDelete('cascade'); //fk one-to-one
+            $table->string('razao_social', 100);
+            $table->string('cnpj', 19)->unique();
+            $table->string('rg_ie', 20)->unique()->nullable();
+            $table->string('tipo_contribuinte', 30)->nullable();
+            $table->string('isento_ie_estadual', 30)->nullable();
+            $table->string('responsavel', 80)->nullable();
+            $table->timestamp('criado_em')->useCurrent();
+            $table->timestamp('atualizado_em')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

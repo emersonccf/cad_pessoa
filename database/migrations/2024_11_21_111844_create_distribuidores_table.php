@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('distribuidores', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('pessoa_juridica_id')->constrained('pessoas_juridicas')->onDelete('cascade'); //fk one-to-one
+            $table->timestamp('criado_em')->useCurrent();
+            $table->timestamp('atualizado_em')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('medicos', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('funcionario_id')->constrained('funcionarios')->onDelete('cascade'); //fk one-to-one
+            $table->bigInteger('crm')->index();
+            $table->timestamp('criado_em')->useCurrent();
+            $table->timestamp('atualizado_em')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

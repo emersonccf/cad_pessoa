@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('clientes_pessoas_fisicas', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('pessoa_fisica_id')->constrained('pessoas_fisicas')->onDelete('cascade'); //fk one-to-one
+            $table->timestamp('criado_em')->useCurrent();
+            $table->timestamp('atualizado_em')->useCurrent()->useCurrentOnUpdate();
         });
     }
 
