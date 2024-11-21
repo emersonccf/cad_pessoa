@@ -10,4 +10,9 @@ class TipoPessoa extends Model
     use HasFactory;
 
     protected $table = 'tipos_pessoas';
+
+    public function pessoas()
+    {
+        return $this->belongsToMany(Pessoa::class);
+    }
 }
