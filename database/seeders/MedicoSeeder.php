@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class MedicoSeeder extends Seeder
 {
@@ -12,6 +12,15 @@ class MedicoSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $faker = fake('pt_BR');
+        $funcionarios_id = [3,4];
+
+        foreach ($funcionarios_id as $id) {
+            DB::table("medicos")->insert([
+                    'funcionario_id' => $id,
+                    'crm' => $faker->numerify('###.###'),
+                ]
+            );
+        }
     }
 }

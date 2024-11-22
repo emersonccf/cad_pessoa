@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('vendedores', function (Blueprint $table) {
             $table->id();
             $table->foreignId('funcionario_id')->constrained('funcionarios')->onDelete('cascade'); //fk one-to-one
-            $table->decimal(8,2);
+            $table->decimal('comissao',8,2)->default(0);
             $table->timestamp('criado_em')->useCurrent();
             $table->timestamp('atualizado_em')->useCurrent()->useCurrentOnUpdate();
         });

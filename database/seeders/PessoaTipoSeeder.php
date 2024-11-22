@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Pessoa;
 use App\Models\PessoaTipo;
-use App\Models\TipoPessoa;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
