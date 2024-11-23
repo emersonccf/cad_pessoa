@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Funcionario extends Model
 {
     protected $table = 'funcionarios';
+    protected $fillable = [];
+    public $timestamps = false;
 
     public function pessoa_fisica()
     {

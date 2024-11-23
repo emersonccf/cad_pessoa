@@ -15,8 +15,8 @@ return new class extends Migration
             $table->unsignedBigInteger('numeracao'); //coluna autoincremental
             $table->foreignId('pessoa_id')->constrained('pessoas')->onDelete('cascade');
             $table->foreignId('tipo_pessoa_id')->constrained('tipos_pessoas')->onDelete('cascade');
-            $table->timestamp('criado_em')->useCurrent();
-            $table->timestamp('atualizado_em')->useCurrent()->useCurrentOnUpdate();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 
             $table->primary(['pessoa_id', 'tipo_pessoa_id']);
         });

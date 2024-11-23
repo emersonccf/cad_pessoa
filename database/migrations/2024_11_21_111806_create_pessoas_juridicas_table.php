@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('tipo_contribuinte', 30)->nullable();
             $table->string('isento_ie_estadual', 30)->nullable();
             $table->string('responsavel', 80)->nullable();
-            $table->timestamp('criado_em')->useCurrent();
-            $table->timestamp('atualizado_em')->useCurrent()->useCurrentOnUpdate();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('status', 80);
             $table->text('descricao')->nullable();
-            $table->timestamp('criado_em')->useCurrent();
-            $table->timestamp('atualizado_em')->useCurrent()->useCurrentOnUpdate();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

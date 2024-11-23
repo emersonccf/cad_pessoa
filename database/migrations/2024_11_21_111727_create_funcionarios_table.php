@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pessoa_fisica_id')->constrained('pessoas_fisicas')->onDelete('cascade'); //fk one-to-one
             $table->date('data_admissao');
-            $table->timestamp('criado_em')->useCurrent();
-            $table->timestamp('atualizado_em')->useCurrent()->useCurrentOnUpdate();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

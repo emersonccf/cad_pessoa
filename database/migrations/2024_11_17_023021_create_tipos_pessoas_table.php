@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('tipo',150);
             $table->text('descricao')->nullable();
             $table->string('instancia_entidade')->nullable();
-            $table->timestamp('criado_em')->useCurrent();
-            $table->timestamp('atualizado_em')->useCurrent()->useCurrentOnUpdate();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

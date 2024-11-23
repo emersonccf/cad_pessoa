@@ -1,6 +1,6 @@
 <center><img alt="cadastro_pessoas.png" height="80" src="resources%2Fimgs%2Fcadastro_pessoas.png" width="80"/></center>
 
-# Documentação sobre o uso do Cadastro de Pessoas no Tinker do Laravel 11 
+# Documentação sobre o uso do Cadastro de Pessoas no Tinker do Laravel 11 através do Eloquent ORM
 
 
 ## Configuração do ambiente
@@ -121,7 +121,13 @@ senha: 123
 Como o intuito é comprovar e operacionalizar o backend para realizar o cadastro de pessoas de vários tipos, assim criar rotas, controladores e views demandariam muitos esforços que no momento não é o foco da proposta lançada iremos testar o sistema usando o terminal do Laravel através do Tinker para realizar o nosso CRUD.
 </p>
 
-## Utilizando o Tinker para interagir com a base de dados utilizado recursos do Eloquente e Models:
+## Utilizando o Tinker para interagir com a base de dados utilizado recursos do Models e Eloquent ORM:
+
+Para maiores informações sobre o `Eloquent ORM` e `Tinker` consulte:
+
+- [Eloquent documentação Laravel](https://laravel.com/docs/11.x/eloquent)
+- [Eloquent documentação alternativa em pt-BR](https://laravel-docs-pt-br.readthedocs.io/en/latest/eloquent/)
+- [Tinker](https://laravel.com/docs/11.x/artisan#tinker)
 
 <p style="font-size:12pt; color:#889330; text-align: center;">
 Para entra no terminal do Tinker utilize o seguinte comando:

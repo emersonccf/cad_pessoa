@@ -10,6 +10,8 @@ class TipoPessoa extends Model
     use HasFactory;
 
     protected $table = 'tipos_pessoas';
+    protected $fillable = [];
+    public $timestamps = false;
 
     public function pessoas()
     {

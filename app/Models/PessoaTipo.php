@@ -11,6 +11,9 @@ class PessoaTipo extends Model
     use HasFactory;
 
     protected $table = 'pessoas_tipos';
+    protected $fillable = [];
+    public $timestamps = false;
+
     protected static function boot(): void
     {
         parent::boot();

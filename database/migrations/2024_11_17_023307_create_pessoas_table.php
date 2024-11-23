@@ -26,8 +26,8 @@ return new class extends Migration
             $table->string('telefone', 20)->nullable();
             $table->string('celular', 20)->nullable();
             $table->string('email', 100)->nullable();
-            $table->timestamp('criado_em')->useCurrent();
-            $table->timestamp('atualizado_em')->useCurrent()->useCurrentOnUpdate();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

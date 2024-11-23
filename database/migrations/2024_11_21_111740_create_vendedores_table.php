@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('funcionario_id')->constrained('funcionarios')->onDelete('cascade'); //fk one-to-one
             $table->decimal('comissao',8,2)->default(0);
-            $table->timestamp('criado_em')->useCurrent();
-            $table->timestamp('atualizado_em')->useCurrent()->useCurrentOnUpdate();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 
