@@ -12,7 +12,14 @@ class PessoaController extends Controller
      */
     public function index()
     {
-        //
+        $pessoa = Pessoa::with('status'
+        )->with(['tipos_pessoas'=> function($query){
+            $query->select('tipo');
+        }])->with('pessoa_fisica.funcionario.medico')->find(3);
+
+        dd($pessoa);
+
+        return view('pessoas.pessoa-index', compact('pessoa'));
     }
 
     /**

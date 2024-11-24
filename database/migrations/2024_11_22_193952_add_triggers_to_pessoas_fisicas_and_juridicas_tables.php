@@ -23,7 +23,7 @@ return new class extends Migration
 
                 IF pessoa_juridica_exists > 0 THEN
                     SIGNAL SQLSTATE "45000"
-                    SET MESSAGE_TEXT = "A pessoa já está cadastrada como Pessoa Jurídica!";
+                    SET MESSAGE_TEXT = "A pessoas já está cadastrada como Pessoa Jurídica!";
                 END IF;
             END
         ');
@@ -41,7 +41,7 @@ return new class extends Migration
 
                 IF pessoa_fisica_exists > 0 THEN
                     SIGNAL SQLSTATE "45000"
-                    SET MESSAGE_TEXT = "A pessoa já está cadastrada como Pessoa Física!";
+                    SET MESSAGE_TEXT = "A pessoas já está cadastrada como Pessoa Física!";
                 END IF;
             END
         ');

@@ -10,10 +10,10 @@ class Pessoa extends Model
     use HasFactory;
 
     protected $table = 'pessoas';
-    protected $fillable = [];
+    protected $fillable = ['nome','status_id'];
     public $timestamps = false;
 
-    /* Metodo estatico para criar uma nova pessoa */
+    /* Metodo estatico para criar uma nova pessoas */
     public static function createWithAttributes(array $attributes)
     {
         return self::create($attributes);
@@ -28,7 +28,7 @@ class Pessoa extends Model
     /* Relacionamento pertence-a-muitos com TipoPessoa */
     public function tipos_pessoas()
     {
-        return $this->belongsToMany(TipoPessoa::class);
+        return $this->belongsToMany(TipoPessoa::class, 'pessoas_tipos', 'pessoa_id', 'tipo_pessoa_id');
     }
 
     /* Relacionamento tem-um com PessoaFisica  */

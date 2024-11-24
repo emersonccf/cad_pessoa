@@ -138,7 +138,7 @@ php artisan tinker
 ```
 ### Cadastrando pessoas no sistema (C)
 
-| TIPO DE PESSOA | SCRIPT PARA O TINKER |
+| TESTANDO ELOQUENT ORM NO TINKER  | DESCRIÇÃO |
 |----------------|----------------------|
 | xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
 | xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
@@ -149,18 +149,18 @@ php artisan tinker
 ### Realizando consultas aos dados já cadastrados (R)
 
 
-| TIPO DE PESSOA | SCRIPT PARA O TINKER |
-|----------------|----------------------|
-| xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
-| xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
-| xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
-| xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
+| TESTANDO ELOQUENT ORM NO TINKER                                                                                                                             | DESCRIÇÃO                                                                                                                                                                                                                                                                                                                                           |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Pessoa::with('status')->with('tipos_pessoas')->with('pessoa_fisica.funcionario.medico')->find(3);`                                                         | Nessa consulta existem vários relacionamentos da tabela pessoas com (with):tabela status, tipos_pessoas, e com as tabelas em cascata: pessoa_fisica, funcionario e medico. <br/><br/> **Retorna a pessoa de id = 3 com todos seus dados, o status, os tipos de pessoas que está associado, os dados de pessoa física, de funcionário e de médico.** |    
+| `$pessoa = Pessoa::with('status')->with(['tipos_pessoas'=> function($query){$query->select('tipo');}])->with('pessoa_fisica.funcionario.medico')->find(3);` | Retorna a pessoa de id = 3 semelhante ao que foi feito anteriormente só que neste caso filtra os campos do relacionamento com a tabela tipos_pessoas só para retornar dessa tabela o campo tipo e atribui esse registro a variável $pessoa .                                                                                                        |           
+| `$pessoa->tipos_pessoas` | Retorna um array com todos os tipos associados a pessoa localizada anteriormente.                                                                                                                                                                                                                                                                   |           
+| `$pessoa->tipos_pessoas[0]['tipo']` | Retorna apenas o nome do primeiro tipo associado a pessoa selecionada                                                                                                                                                                                                                                                                                |           
 
 
 ### Atualizando dados de pessoas no sistema (U)
 
 
-| TIPO DE PESSOA | SCRIPT PARA O TINKER |
+| TESTANDO ELOQUENT ORM NO TINKER  | DESCRIÇÃO |
 |----------------|----------------------|
 | xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
 | xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
@@ -171,7 +171,7 @@ php artisan tinker
 ### Deletando uma pessoa do sistema (D)
 
 
-| TIPO DE PESSOA | SCRIPT PARA O TINKER |
+| TESTANDO ELOQUENT ORM NO TINKER  | DESCRIÇÃO |
 |----------------|----------------------|
 | xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
 | xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
