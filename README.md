@@ -113,10 +113,12 @@ http://127.0.0.1:8000
 login: admin@admin.com
 senha: 123
 ```
-15. **xxxxxx**
+15. **Para limpar o banco de dados e executar novamente as migrações: Remove todas as tabelas inclusive a de migração e logo após recria todas novamente rodando todas as migrações automaticamente**
 ```
+php artisan migrate:fresh
+```
+**Refaça o passo 11 para popular novamente o banco de dados para realizar novamente os testes abaixo.**
 
-```
 <p style="font-size:12pt; color:#2563eb; font-weight:bold;">
 Como o intuito é comprovar e operacionalizar o backend para realizar o cadastro de pessoas de vários tipos, assim criar rotas, controladores e views demandariam muitos esforços que no momento não é o foco da proposta lançada iremos testar o sistema usando o terminal do Laravel através do Tinker para realizar o nosso CRUD.
 </p>
@@ -127,7 +129,7 @@ Para maiores informações sobre o `Eloquent ORM` e `Tinker` consulte:
 
 - [Eloquent documentação Laravel](https://laravel.com/docs/11.x/eloquent)
 - [Eloquent documentação alternativa em pt-BR](https://laravel-docs-pt-br.readthedocs.io/en/latest/eloquent/)
-- [Tinker](https://laravel.com/docs/11.x/artisan#tinker)
+- [Tinker documentação Laravel](https://laravel.com/docs/11.x/artisan#tinker)
 
 <p style="font-size:12pt; color:#889330; text-align: center;">
 Para entra no terminal do Tinker utilize o seguinte comando:
@@ -136,39 +138,31 @@ Para entra no terminal do Tinker utilize o seguinte comando:
 ```
 php artisan tinker
 ```
+#### Teste as operações abaixo no terminal do Laravel: copie e cole no Tinker.
+
 ### Cadastrando pessoas no sistema (C)
 
-| TESTANDO ELOQUENT ORM NO TINKER  | DESCRIÇÃO |
-|----------------|----------------------|
-| xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
-| xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
-| xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
-| xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
+| TESTANDO ELOQUENT ORM NO TINKER                                                                                                                                                                                                                                                                                                                                                             | DESCRIÇÃO                                                                                         |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| `` $pessoa = App\Models\Pessoa::create(['status_id' => 1, 'nome' => "Emerson Ferreira", 'logradouro' => "Rua A", 'numero' => "20",'bairro' => "São Caetano", 'cidade' => "Salvador", 'uf' => "BA", 'complemento' => "casa da frente",'cep' => "40.222-030",'ibge' => "312050",'telefone' => "(71) 3958-5817",'celular' => "(71) 985252-1010", 'email' => "emerson.ferreira@test.net.br"])`` | Cria uma pessoa e armazena o retorno na variável `$pessoa`                                        |    
+| `` $pessoa_fisica = App\Models\PessoaFisica::create(['pessoa_id'=> $pessoa->id, 'cpf'=> "001.296.778-76", 'rg'=> "99.338.775", 'data_nascimento'=> DateTime::createFromFormat('d/m/Y', "30/10/1977")->format('Y-m-d')]) ``                                                                                                                                                                  | Cria uma pessoa física e associa a uma pessoa e armazena o retorno na variável `$pessoa_fisica`   |    
+| `` $funcionario = App\Models\Funcionario::create(['pessoa_fisica_id' => $pessoa_fisica->id, 'data_admissao' => DateTime::createFromFormat('d/m/Y', "28/02/2000")->format('Y-m-d')]) ``                                                                                                                                                                                                      | Cria um funcionário e associa a uma pessoa física e armazena o retorno na variável `$funcionario` |    
+| `` $vendedor = App\Models\Vendedor::create(['funcionario_id' => $funcionario->id, 'comissao' => 15.5]) ``                                                                                                                                                                                                                                                                                   | Cria um vendedor e associa a uma funcionário e armazena o retorno na variável `$vendedor`         |
+| `` App\Models\Pessoa::with('status')->with('tipos_pessoas')->with('pessoa_fisica.funcionario.vendedor')->latest()->first(); ``| Verificação: Retorna a última pessoa que foi criada                                               |
 
 
 ### Realizando consultas aos dados já cadastrados (R)
 
 
-| TESTANDO ELOQUENT ORM NO TINKER                                                                                                                             | DESCRIÇÃO                                                                                                                                                                                                                                                                                                                                           |
-|-------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `Pessoa::with('status')->with('tipos_pessoas')->with('pessoa_fisica.funcionario.medico')->find(3);`                                                         | Nessa consulta existem vários relacionamentos da tabela pessoas com (with):tabela status, tipos_pessoas, e com as tabelas em cascata: pessoa_fisica, funcionario e medico. <br/><br/> **Retorna a pessoa de id = 3 com todos seus dados, o status, os tipos de pessoas que está associado, os dados de pessoa física, de funcionário e de médico.** |    
-| `$pessoa = Pessoa::with('status')->with(['tipos_pessoas'=> function($query){$query->select('tipo');}])->with('pessoa_fisica.funcionario.medico')->find(3);` | Retorna a pessoa de id = 3 semelhante ao que foi feito anteriormente só que neste caso filtra os campos do relacionamento com a tabela tipos_pessoas só para retornar dessa tabela o campo tipo e atribui esse registro a variável $pessoa .                                                                                                        |           
-| `$pessoa->tipos_pessoas` | Retorna um array com todos os tipos associados a pessoa localizada anteriormente.                                                                                                                                                                                                                                                                   |           
-| `$pessoa->tipos_pessoas[0]['tipo']` | Retorna apenas o nome do primeiro tipo associado a pessoa selecionada                                                                                                                                                                                                                                                                                |           
+| TESTANDO ELOQUENT ORM NO TINKER                                                                                                                                        | DESCRIÇÃO                                                                                                                                                                                                                                                                                                                                           |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `App\Models\Pessoa::with('status')->with('tipos_pessoas')->with('pessoa_fisica.funcionario.medico')->find(3);`                                                         | Nessa consulta existem vários relacionamentos da tabela pessoas com (with):tabela status, tipos_pessoas, e com as tabelas em cascata: pessoa_fisica, funcionario e medico. <br/><br/> **Retorna a pessoa de id = 3 com todos seus dados, o status, os tipos de pessoas que está associado, os dados de pessoa física, de funcionário e de médico.** |    
+| `$pessoa = App\Models\Pessoa::with('status')->with(['tipos_pessoas'=> function($query){$query->select('tipo');}])->with('pessoa_fisica.funcionario.medico')->find(3);` | Retorna a pessoa de id = 3 semelhante ao que foi feito anteriormente só que neste caso filtra os campos do relacionamento com a tabela tipos_pessoas só para retornar dessa tabela o campo tipo e atribui esse registro a variável $pessoa .                                                                                                        |           
+| `$pessoa->tipos_pessoas`                                                                                                                                               | Retorna um `Collections` com todos os tipos associados a pessoa localizada anteriormente.                                                                                                                                                                                                                                                           |           
+| `$pessoa->tipos_pessoas[0]['tipo']` </br> `$pessoa->tipos_pessoas[1]['tipo']`                                                                                          | Retorna apenas o nome do tipo associado a pessoa selecionada de acordo com o chave informada `0` ou `1`                                                                                                                                                                                                                                             |           
 
 
-### Atualizando dados de pessoas no sistema (U)
-
-
-| TESTANDO ELOQUENT ORM NO TINKER  | DESCRIÇÃO |
-|----------------|----------------------|
-| xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
-| xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
-| xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
-| xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
-
-
-### Deletando uma pessoa do sistema (D)
+### Atualizando dados de pessoas no sistema (U) <span style="color:#889330;">(em construção)</span>
 
 
 | TESTANDO ELOQUENT ORM NO TINKER  | DESCRIÇÃO |
@@ -179,5 +173,21 @@ php artisan tinker
 | xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
 
 
+### Deletando uma pessoa do sistema (D) <span style="color:#889330;">(em construção)</span>
 
+
+| TESTANDO ELOQUENT ORM NO TINKER  | DESCRIÇÃO |
+|----------------|----------------------|
+| xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
+| xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
+| xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
+| xxxxxxxxxx     | xxxxxxxxxxxxxxxxxxx  |    
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+
+> "Ninguém ignora tudo. Ninguém sabe tudo. Todos nós sabemos alguma coisa. Todos nós ignoramos alguma coisa. Por isso aprendemos sempre."
+ *Paulo Freire*
 

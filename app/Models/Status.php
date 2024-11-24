@@ -10,7 +10,7 @@ class Status extends Model
 //    use HasFactory;
 
     protected $table = 'status';
-    protected $fillable = [];
+    protected $fillable = ['status', 'descricao'];
     public $timestamps = false;
 
     public function pessoas()

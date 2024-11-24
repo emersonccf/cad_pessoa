@@ -11,7 +11,7 @@ class PessoaTipo extends Model
     use HasFactory;
 
     protected $table = 'pessoas_tipos';
-    protected $fillable = [];
+    protected $fillable = ['pessoa_id', 'tipo_pessoa_id'];
     public $timestamps = false;
 
     protected static function boot(): void

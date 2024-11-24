@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ClientePessoaJuridica extends Model
 {
     protected $table = 'clientes_pessoas_juridicas';
-    protected $fillable = [];
+    protected $fillable = ['pessoa_juridica_id'];
     public $timestamps = false;
 
     public function pessoa_juridica()

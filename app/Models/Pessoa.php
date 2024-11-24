@@ -10,19 +10,13 @@ class Pessoa extends Model
     use HasFactory;
 
     protected $table = 'pessoas';
-    protected $fillable = ['nome','status_id'];
+    protected $fillable = ['status_id', 'nome', 'logradouro', 'numero', 'bairro', 'cidade', 'uf', 'complemento', 'cep', 'ibge', 'telefone', 'celular', 'email'];
     public $timestamps = false;
-
-    /* Metodo estatico para criar uma nova pessoas */
-    public static function createWithAttributes(array $attributes)
-    {
-        return self::create($attributes);
-    }
 
     /* Relacionamento pertence-a com Status */
     public function status()
     {
-        return $this->belongsTo(Status::class);
+        return $this->belongsTo(Status::class, 'status_id');
     }
 
     /* Relacionamento pertence-a-muitos com TipoPessoa */
@@ -34,13 +28,13 @@ class Pessoa extends Model
     /* Relacionamento tem-um com PessoaFisica  */
     public function pessoa_fisica()
     {
-        return $this->hasOne(PessoaFisica::class);
+        return $this->hasOne(PessoaFisica::class, 'pessoa_id');
     }
 
     /* Relacionamento tem-um com PessoaJuridica  */
     public function pessoa_juridica()
     {
-        return $this->hasOne(PessoaJuridica::class);
+        return $this->hasOne(PessoaJuridica::class, 'pessoa_id');
     }
 
 
