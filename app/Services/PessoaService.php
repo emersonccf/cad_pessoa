@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -21,7 +22,9 @@ class PessoaService
     }
 
     /**
-     * Salva todas as alterações, em cascata, que foram realizadas em uma pessoa e em seus relacionamentos
+     * Salva todas as alterações que foram realizadas em uma pessoa e em seus relacionamentos existentes através do push()
+     * Esse método não é capaz de salvar relacionamentos novos como, por exemplo, associar a novo tipo de pessoa
+     * para este fim utilize o create() e faça a devida associação pela chave primaria
      */
     public function saveAll()
     {
@@ -35,41 +38,27 @@ class PessoaService
             throw new ValidationException($validator);
         }
 
-        try {
+        try
+        {
             DB::transaction(function ()
             {
-                // Carregar relações dinamicamente
-                $this->loadRelations();
-
                 // Salvar a pessoa e suas relações
-                $this->pessoa->save();
+                $this->pessoa->push();
 
-                // Salvar relações de forma dinâmica
-                foreach ($this->pessoa->getRelations() as $relationName => $relation)
-                {
-                    if ($relation) {
-                        if (is_iterable($relation))
-                        {
-                            foreach ($relation as $item)
-                            {
-                                if (method_exists($item, 'save'))
-                                {
-                                    $item->save();
-                                }
-                            }
-                        } elseif (method_exists($relation, 'save'))
-                        {
-                            $relation->save();
-                        }
-                    }
-                }
             });
-        } catch (ValidationException $e) {
+        }
+        catch (ValidationException $e)
+        {
             Log::warning('Erro de validação: ' . $e->getMessage());
             throw $e;
-        } catch (\Exception $e) {
+        } catch (QueryException $e)
+        {
             Log::error('Erro ao salvar Pessoa e suas relações: ' . $e->getMessage());
             throw new \Exception('Houve um problema ao salvar os dados. Por favor, tente novamente.');
+        } catch (\Exception $e)
+        {
+            Log::error('Erro inesperado: ' . $e->getMessage());
+            throw new \Exception('Um erro inesperado ocorreu. Por favor, contate o suporte.');
         }
     }
 
@@ -84,14 +73,5 @@ class PessoaService
             'email' => 'nullable|email|max:100|unique:pessoas,email,' . $this->pessoa->id,
             // Adicione outras regras conforme necessário
         ];
-    }
-
-    /**
-     * Carrega todos os possíveis relacionamentos de uma pessoa
-     */
-    protected function loadRelations()
-    {
-        $relations = $this->pessoa->getDefinedRelations();
-        $this->pessoa->load($relations);
     }
 }

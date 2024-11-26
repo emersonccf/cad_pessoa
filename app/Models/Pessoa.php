@@ -38,55 +38,16 @@ class Pessoa extends Model
         return $this->hasOne(PessoaJuridica::class, 'pessoa_id');
     }
 
-    /* ====================================== relacionamentos: tem um através de ===================================== */
-
-    public function cliente_pessoa_fisica()
-    {
-        return $this->hasOneThrough(ClientePessoaFisica::class, PessoaFisica::class, 'pessoa_id', 'pessoa_fisica_id');
-    }
-
-    public function funcionario()
-    {
-        return $this->hasOneThrough(Funcionario::class, PessoaFisica::class, 'pessoa_id', 'pessoa_fisica_id');
-    }
-
-    public function medico()
-    {
-        return $this->hasOneThrough(Medico::class, Funcionario::class, 'pessoa_fisica_id', 'funcionario_id');
-    }
-
-    public function vendedor()
-    {
-        return $this->hasOneThrough(Vendedor::class, Funcionario::class, 'pessoa_fisica_id', 'funcionario_id');
-    }
-
-    public function cliente_pessoa_juridica()
-    {
-        return $this->hasOneThrough(ClientePessoaJuridica::class, PessoaJuridica::class, 'pessoa_id', 'pessoa_juridica_id');
-    }
-
-    public function fornecedor()
-    {
-        return $this->hasOneThrough(Fornecedor::class, PessoaJuridica::class, 'pessoa_id', 'pessoa_juridica_id');
-    }
-
-    public function distribuidor()
-    {
-        return $this->hasOneThrough(Distribuidor::class, PessoaJuridica::class, 'pessoa_id', 'pessoa_juridica_id');
-    }
-
-    /* =============================================================================================================== */
-
     public function getDefinedRelations()
     {
         return [
-            'pessoa_fisica.cliente_pessoa_fisica',
-            'pessoa_fisica.funcionario',
-            'pessoa_fisica.funcionario.medico',
-            'pessoa_fisica.funcionario.vendedor',
-            'pessoa_juridica.cliente_pessoa_juridica',
-            'pessoa_juridica.fornecedor',
-            'pessoa_juridica.distribuidor',
+            'pf_cpf' => 'pessoa_fisica.cliente_pessoa_fisica',
+            'pf_f' => 'pessoa_fisica.funcionario',
+            'pf_f_m' => 'pessoa_fisica.funcionario.medico',
+            'pf_f_v' => 'pessoa_fisica.funcionario.vendedor',
+            'pj_cpj' => 'pessoa_juridica.cliente_pessoa_juridica',
+            'pj_f' => 'pessoa_juridica.fornecedor',
+            'pj_d' => 'pessoa_juridica.distribuidor',
             // Novas relações podem ser adicionadas aqui ou criado um arquivo a parte de onde podem ser carregados estes relacionamentos
         ];
     }

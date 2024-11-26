@@ -142,9 +142,9 @@ php artisan tinker
 
 ### Cadastrando pessoas no sistema (C - CREATE)
 
- $$
- TESTANDO-ELOQUENT-ORM-NO-TINKER
- $$
+$$
+TESTANDO-ELOQUENT-ORM-NO-TINKER
+$$
 
 1. Cria uma pessoa e armazena o retorno na variável `$pessoa`
 ```
@@ -168,7 +168,7 @@ $vendedor = App\Models\Vendedor::create(['funcionario_id' => $funcionario->id, '
 
 5. Verificação: Retorna a última pessoa que foi criada
 ```
-App\Models\Pessoa::with('status')->with('tipos_pessoas')->with('pessoa_fisica.funcionario.vendedor')->latest()->first();
+$p1 = App\Models\Pessoa::with('status')->with('tipos_pessoas')->with('pessoa_fisica.funcionario.vendedor')->latest()->first();
 ```
 
 ### Realizando consultas aos dados já cadastrados (R - READ)
@@ -199,7 +199,7 @@ $pessoa->tipos_pessoas[0]['tipo']
 $pessoa->tipos_pessoas[1]['tipo']
 ```
 
-### Atualizando dados de pessoas no sistema (U - UPDATE) <span style="color:#889330;">(em construção)</span>
+### Atualizando dados de pessoas no sistema (U - UPDATE)
 
 $$
 TESTANDO-ELOQUENT-ORM-NO-TINKER
@@ -210,85 +210,46 @@ $$
 $p1 = App\Models\Pessoa::with('status')->with('tipos_pessoas')->with('pessoa_fisica.funcionario.vendedor')->find(17);
 ```
 
-2. xxxxxx
+2. Confira o nome da pessoa selecionada, deve aparecer `"Emerson Ferreira"`
 ```
-> $p1->nome
-= "Emerson Ferreira"
-```
-
-3. xxxxxx
-```
-> $p1->nome = "Emerson Pereira Santana"
-= "Emerson Pereira Santana"
+$p1->nome
 ```
 
-4. xxxxxx
+3. Faça a alteração no nome desta pessoa
 ```
-> $p1->pessoa_fisica->funcionario->vendedor->comissao
-= "15.50"
-```
-
-5. xxxxxx
-```
-> $p1->pessoa_fisica->funcionario->vendedor->comissao = 25.5
-= 25.5
+$p1->nome = "Emerson Pereira Santana"
 ```
 
-6. xxxxxx
+4. Verifique a comissão associada ao tipo vendedor associada a esta pessoa, deve aparecer `"15.50"`
 ```
-> $p1->pessoa_fisica->cliente_pessoa_fisica
-= null
-```
-
-7. xxxxxx
-```
-$p1->pessoa_fisica->cliente_pessoa_fisica = new App\Models\ClientePessoaFisica(['pessoa_fisica_id' => $p1->pessoa_fisica->id, 'desconto' => 3.33])
+$p1->pessoa_fisica->funcionario->vendedor->comissao
 ```
 
-8. xxxxxx
+5. Faça alteração no valor da comissão dessa pessoa
+```
+$p1->pessoa_fisica->funcionario->vendedor->comissao = 25.5
 ```
 
+6. Salve as alterações realizadas, que estão em memória, no banco de dados. Dentro do `saveAll()` é usado o método `push()` do `Model` e outras lógicas de: transação, validação e tratamento de exceções em uma classe de serviços.
+```
+$p1->saveAll()
 ```
 
-9. xxxxxx
+7. Repete a consulta do `passo 1` para verificar que as alterações foram persistidas e confira também nas tabelas do banco de dados
+```
+$p1 = App\Models\Pessoa::with('status')->with('tipos_pessoas')->with('pessoa_fisica.funcionario.vendedor')->find(17);
 ```
 
+8. Cria uma pessoa do tipo `ClientePessoaFisica` e associa a pessoa que está selecionada: `$p1`
+```
+$cliente_pessoa_fisica = App\Models\ClientePessoaFisica::create(['pessoa_fisica_id' => $p1->pessoa_fisica->id, 'desconto' => 3.33])
 ```
 
-10. xxxxxx
+9. Realiza uma nova consulta para constar o novo relacionamento de `$p1` com o tipo `ClientePessoaFísica` e confira também no banco de dados
+```
+$p1 = App\Models\Pessoa::with('status')->with('tipos_pessoas')->with('pessoa_fisica.cliente_pessoa_fisica')->with('pessoa_fisica.funcionario.vendedor')->find(17);
 ```
 
-```
-
-11. xxxxxx
-```
-
-```
-
-12. xxxxxx
-```
-
-```
-
-13. xxxxxx
-```
-
-```
-
-14. xxxxxx
-```
-
-```
-
-15. xxxxxx
-```
-
-```
-
-16. xxxxxx
-```
-
-```
 
 ### Deletando uma pessoa do sistema (D - DELETE) <span style="color:#889330;">(em construção)</span>
 
@@ -322,5 +283,5 @@ $$
 &nbsp;
 
 > "Ninguém ignora tudo. Ninguém sabe tudo. Todos nós sabemos alguma coisa. Todos nós ignoramos alguma coisa. Por isso aprendemos sempre."
- *Paulo Freire*
+*Paulo Freire*
 
