@@ -140,7 +140,7 @@ php artisan tinker
 ```
 #### Teste as operações abaixo no terminal do Laravel: copie e cole no Tinker.
 
-### Cadastrando pessoas no sistema (C)
+### Cadastrando pessoas no sistema (C - CREATE)
 
  $$
  TESTANDO-ELOQUENT-ORM-NO-TINKER
@@ -171,7 +171,7 @@ $vendedor = App\Models\Vendedor::create(['funcionario_id' => $funcionario->id, '
 App\Models\Pessoa::with('status')->with('tipos_pessoas')->with('pessoa_fisica.funcionario.vendedor')->latest()->first();
 ```
 
-### Realizando consultas aos dados já cadastrados (R)
+### Realizando consultas aos dados já cadastrados (R - READ)
 
 $$
 TESTANDO-ELOQUENT-ORM-NO-TINKER
@@ -199,15 +199,15 @@ $pessoa->tipos_pessoas[0]['tipo']
 $pessoa->tipos_pessoas[1]['tipo']
 ```
 
-### Atualizando dados de pessoas no sistema (U) <span style="color:#889330;">(em construção)</span>
+### Atualizando dados de pessoas no sistema (U - UPDATE) <span style="color:#889330;">(em construção)</span>
 
 $$
 TESTANDO-ELOQUENT-ORM-NO-TINKER
 $$
 
-1. xxxxxx
+1. Localizamos o registro de `id=17` criado anteriormente e armazenamos na variável `$p1`:
 ```
-
+$p1 = App\Models\Pessoa::with('status')->with('tipos_pessoas')->with('pessoa_fisica.funcionario.vendedor')->find(17);
 ```
 
 2. xxxxxx
@@ -225,7 +225,67 @@ $$
 
 ```
 
-### Deletando uma pessoa do sistema (D) <span style="color:#889330;">(em construção)</span>
+5. xxxxxx
+```
+
+```
+
+6. xxxxxx
+```
+
+```
+
+7. xxxxxx
+```
+
+```
+
+8. xxxxxx
+```
+
+```
+
+9. xxxxxx
+```
+
+```
+
+10. xxxxxx
+```
+
+```
+
+11. xxxxxx
+```
+
+```
+
+12. xxxxxx
+```
+
+```
+
+13. xxxxxx
+```
+
+```
+
+14. xxxxxx
+```
+
+```
+
+15. xxxxxx
+```
+
+```
+
+16. xxxxxx
+```
+
+```
+
+### Deletando uma pessoa do sistema (D - DELETE) <span style="color:#889330;">(em construção)</span>
 
 $$
 TESTANDO-ELOQUENT-ORM-NO-TINKER
