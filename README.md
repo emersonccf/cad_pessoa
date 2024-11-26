@@ -212,32 +212,37 @@ $p1 = App\Models\Pessoa::with('status')->with('tipos_pessoas')->with('pessoa_fis
 
 2. xxxxxx
 ```
-
+> $p1->nome
+= "Emerson Ferreira"
 ```
 
 3. xxxxxx
 ```
-
+> $p1->nome = "Emerson Pereira Santana"
+= "Emerson Pereira Santana"
 ```
 
 4. xxxxxx
 ```
-
+> $p1->pessoa_fisica->funcionario->vendedor->comissao
+= "15.50"
 ```
 
 5. xxxxxx
 ```
-
+> $p1->pessoa_fisica->funcionario->vendedor->comissao = 25.5
+= 25.5
 ```
 
 6. xxxxxx
 ```
-
+> $p1->pessoa_fisica->cliente_pessoa_fisica
+= null
 ```
 
 7. xxxxxx
 ```
-
+$p1->pessoa_fisica->cliente_pessoa_fisica = new App\Models\ClientePessoaFisica(['pessoa_fisica_id' => $p1->pessoa_fisica->id, 'desconto' => 3.33])
 ```
 
 8. xxxxxx
