@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('vendedores', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('funcionario_id')->constrained('funcionarios')->onDelete('cascade'); //fk one-to-one
+            $table->foreignId('funcionario_id')->unique()->constrained('funcionarios')->onDelete('cascade'); //fk one-to-one
             $table->decimal('comissao',8,2)->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pessoas_fisicas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pessoa_id')->constrained('pessoas')->onDelete('cascade'); //fk one-to-one
+            $table->foreignId('pessoa_id')->unique()->constrained('pessoas')->onDelete('cascade'); //fk one-to-one
             $table->string('cpf', 19)->unique();
             $table->string('rg', 20)->unique()->nullable();
             $table->string('identidade_estrangeiro', 20)->unique()->nullable();
