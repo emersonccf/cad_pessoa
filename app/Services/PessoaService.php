@@ -36,7 +36,8 @@ class PessoaService
         }
 
         try {
-            DB::transaction(function () {
+            DB::transaction(function ()
+            {
                 // Carregar relações dinamicamente
                 $this->loadRelations();
 
@@ -44,10 +45,22 @@ class PessoaService
                 $this->pessoa->save();
 
                 // Salvar relações de forma dinâmica
-                foreach ($this->pessoa->getRelations() as $relationName => $relation) {
-                    // Verifique se $relation é um objeto válido antes de chamar method_exists
-                    if ($relation && method_exists($relation, 'save')) {
-                        $relation->save();
+                foreach ($this->pessoa->getRelations() as $relationName => $relation)
+                {
+                    if ($relation) {
+                        if (is_iterable($relation))
+                        {
+                            foreach ($relation as $item)
+                            {
+                                if (method_exists($item, 'save'))
+                                {
+                                    $item->save();
+                                }
+                            }
+                        } elseif (method_exists($relation, 'save'))
+                        {
+                            $relation->save();
+                        }
                     }
                 }
             });
