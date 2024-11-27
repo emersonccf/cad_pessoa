@@ -52,10 +52,15 @@ class Pessoa extends Model
         ];
     }
 
-    public function saveAll()
+    /**
+     * Salva todas as alterações e retorna a instância pessoa que foi salva
+     * @return Pessoa
+     */
+    public function saveAll() : Pessoa
     {
         $service = new PessoaService($this);
         $service->saveAll();
+        return $this;
     }
 
 }

@@ -219,6 +219,10 @@ $p1->nome
 ```
 $p1->nome = "Emerson Pereira Santana"
 ```
+ou (update via bind: no caso abaixo já atualiza direto e não precisa `saveAll()`)
+```
+$p1->update(['nome' => "Emerson Pereira Santana"])
+```
 
 4. Verifique a comissão associada ao tipo vendedor associada a esta pessoa, deve aparecer `"15.50"`
 ```
@@ -228,6 +232,10 @@ $p1->pessoa_fisica->funcionario->vendedor->comissao
 5. Faça alteração no valor da comissão dessa pessoa
 ```
 $p1->pessoa_fisica->funcionario->vendedor->comissao = 25.5
+```
+ou (update via bind: no caso abaixo já atualiza direto e não precisa `saveAll()`)
+```
+$p1->pessoa_fisica->funcionario->vendedor->update(['comissao' => 25.5])
 ```
 
 6. Salve as alterações realizadas, que estão em memória, no banco de dados. Dentro do `saveAll()` é usado o método `push()` do `Model` e outras lógicas de: transação, validação e tratamento de exceções em uma classe de serviços.
@@ -251,32 +259,46 @@ $p1 = App\Models\Pessoa::with('status')->with('tipos_pessoas')->with('pessoa_fis
 ```
 
 
-### Deletando uma pessoa do sistema (D - DELETE) <span style="color:#889330;">(em construção)</span>
+### Deletando uma pessoa do sistema (D - DELETE)
 
 $$
 TESTANDO-ELOQUENT-ORM-NO-TINKER
 $$
 
-1. xxxxxx
+1. Carrega para a memória a pessoa que se deseja e filtra-se a relação de tipos as quais a pessoa está vinculada nesse caso: `ClientePessoaFisica`, `Funcionario` e `Vendedor`
+```
+$p1 = App\Models\Pessoa::with(['tipos_pessoas' => fn ($q) => $q->select('tipo')])->find(17);
 ```
 
+2. Carrega a relação da pessoa selecionada apenas com `ClientePessoaFisica`
+```
+$p1->load('pessoa_fisica.cliente_pessoa_fisica')
 ```
 
-2. xxxxxx
+7. Exibe apenas os detalhes de `ClientePessoaFisica`
+```
+$p1->pessoa_fisica->cliente_pessoa_fisica
 ```
 
+3. Apaga apenas `ClientePessoaFisica` e recebe `true` se tudo ocorre bem
+```
+$p1->pessoa_fisica->cliente_pessoa_fisica->delete()
 ```
 
-3. xxxxxx
+4. Carrega novamente dados do banco e exibe pessoa sem o vínculo com `ClientePessoaFisica` <span style="color:#889330;"> (gatilho em desenvolvimento para excluir a relação da tabela `pessos_tipos`) </span> 
+```
+$p1 = App\Models\Pessoa::with('status')->with('tipos_pessoas')->with('pessoa_fisica.funcionario.vendedor')->find(17);
 ```
 
+5. Apaga a pessoa selecionada e todas as suas relações por completo, e recebe `true` se tudo ocorre bem
+```
+$p1->delete()
 ```
 
-4. xxxxxx
+6. Refaz a consulta inicial para tentar recuperar os dados a pessoa de `id=17` e recebe como resposta `null` pois já não consta mais no banco de dados
 ```
-
+$p1 = App\Models\Pessoa::with('status')->with('tipos_pessoas')->with('pessoa_fisica.funcionario.vendedor')->find(17);
 ```
-
 
 &nbsp;
 &nbsp;
