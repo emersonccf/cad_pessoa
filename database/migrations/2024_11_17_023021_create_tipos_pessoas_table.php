@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('tipo',150);
             $table->text('descricao')->nullable();
-            $table->string('instancia_entidade')->nullable();
+            $table->string('relacionamento')->index()->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

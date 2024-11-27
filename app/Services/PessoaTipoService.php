@@ -54,5 +54,4 @@ class PessoaTipoService
         }
     }
 
-    # TODO: Ao apagar um subtipo de uma pessoa qualquer apagar o relacionamento dessa pessoa com o tipo na tabela pessoa_tipo criar esse gatilho aqui
 }
