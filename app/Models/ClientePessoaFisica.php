@@ -28,7 +28,7 @@ class ClientePessoaFisica extends Model
         });
 
         static::deleting(function ($model) use ($tipo_pessoa_loc) {
-            #TODO Trabalhar para abstrair toda essa rotina abaixo
+            #TODO Trabalhar para abstrair toda essa rotina abaixo - teste ok
             $clientePessoaFisicaId = $model->id;
             $pessoaId = ClientePessoaFisica::find($clientePessoaFisicaId)->load('pessoa_fisica')->pessoa_fisica->pessoa_id;
             $tipoPessoaId = TipoPessoa::getIdByTipo($tipo_pessoa_loc); // Obter o tipo_pessoa_id dinamicamente

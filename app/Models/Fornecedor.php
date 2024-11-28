@@ -28,7 +28,7 @@ class Fornecedor extends Model
         });
 
         static::deleting(function ($model) use ($tipo_pessoa_loc) {
-            #TODO Trabalhar para abstrair toda essa rotina abaixo
+            #TODO Trabalhar para abstrair toda essa rotina abaixo - teste ok
             $fornecedorId = $model->id;
             $pessoaId = Fornecedor::find($fornecedorId)->load('pessoa_juridica')->pessoa_juridica->pessoa_id;
             $tipoPessoaId = TipoPessoa::getIdByTipo($tipo_pessoa_loc); // Obter o tipo_pessoa_id dinamicamente

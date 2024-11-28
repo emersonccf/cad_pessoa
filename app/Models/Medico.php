@@ -28,7 +28,7 @@ class Medico extends Model
         });
 
         static::deleting(function ($model) use ($tipo_pessoa_loc)  {
-            #TODO Trabalhar para abstrair toda essa rotina abaixo
+            #TODO Trabalhar para abstrair toda essa rotina abaixo - teste ok
             $medicoId = $model->id;
             $medicoPessoaId = Medico::find($medicoId)->funcionario->pessoa_fisica->pessoa_id;
             $medicoTipoPessoaId = TipoPessoa::getIdByTipo($tipo_pessoa_loc);

@@ -22,11 +22,11 @@ class PessoaJuridica extends Model
 
     public function fornecedor()
     {
-        return $this->hasOne(Fornecedor::class, 'fornecedor_id');
+        return $this->hasOne(Fornecedor::class, 'pessoa_juridica_id');
     }
 
     public function distribuidor()
     {
-        return $this->hasOne(Distribuidor::class, 'distribuidor_id');
+        return $this->hasOne(Distribuidor::class, 'pessoa_juridica_id');
     }
 }

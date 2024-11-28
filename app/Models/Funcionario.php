@@ -42,11 +42,27 @@ class Funcionario extends Model
 
         static::deleting(function ($model) use ($tipo_pessoa_loc) {
 
-            #TODO Trabalhar para abstrair toda essa rotina abaixo e transformar em outro serviço
+            #TODO Trabalhar para abstrair toda essa rotina abaixo e transformar em outro serviço - teste ok
             try
             {
                 DB::transaction( function () use ($model, $tipo_pessoa_loc) {
                     $service = new PessoaTipoDeletionService();
+
+                    // Deletar relação do Vendedor, se existir
+                    $vendedorId = ($model->vendedor ? $model->vendedor->id : false);
+                    if ($vendedorId) {
+                        $vendedorPessoaId = Vendedor::find($vendedorId)->load('funcionario')->funcionario->load('pessoa_fisica')->pessoa_fisica->pessoa_id;
+                        $vendedorTipoPessoaId = TipoPessoa::getIdByTipo('VENDEDOR');
+                        $service->deletePessoaTipoRelations($vendedorPessoaId, $vendedorTipoPessoaId);
+                    }
+
+                    // Deletar relação do Médico, se existir
+                    $medicoId = ($model->medico ? $model->medico->id : false);
+                    if ($medicoId) {
+                        $medicoPessoaId = Medico::find($medicoId)->load('funcionario')->funcionario->load('pessoa_fisica')->pessoa_fisica->pessoa_id;
+                        $medicoTipoPessoaId = TipoPessoa::getIdByTipo('MÉDICO');
+                        $service->deletePessoaTipoRelations($medicoPessoaId, $medicoTipoPessoaId);
+                    }
 
                     // Deletar relação do próprio Funcionário
                     $funcionarioId = $model->id;
@@ -54,21 +70,6 @@ class Funcionario extends Model
                     $tipoPessoaId = TipoPessoa::getIdByTipo($tipo_pessoa_loc);
                     $service->deletePessoaTipoRelations($pessoaId, $tipoPessoaId);
 
-                    // Deletar relação do Médico, se existir
-                    $medicoId = $model->funcionario->load('medico')->medico->id;
-                    if ($medicoId) {
-                        $medicoPessoaId = Medico::find($medicoId)->load('funcionario')->funcionario->load('pessoa_fisica')->pessoa_fisica->pessoa_id;
-                        $medicoTipoPessoaId = TipoPessoa::getIdByTipo('MÉDICO');
-                        $service->deletePessoaTipoRelations($medicoPessoaId, $medicoTipoPessoaId);
-                    }
-
-                    // Deletar relação do Vendedor, se existir
-                    $vendedorId = $model->funcionario->load('vendedor')->medico->id;
-                    if ($vendedorId) {
-                        $vendedorPessoaId = Vendedor::find($vendedorId)->load('funcionario')->funcionario->load('pessoa_fisica')->pessoa_fisica->pessoa_id;
-                        $vendedorTipoPessoaId = TipoPessoa::getIdByTipo('VENDEDOR');
-                        $service->deletePessoaTipoRelations($vendedorPessoaId, $vendedorTipoPessoaId);
-                    }
                 });
             }
             catch (QueryException $e)
