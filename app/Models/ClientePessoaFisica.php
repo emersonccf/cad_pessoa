@@ -11,7 +11,7 @@ class ClientePessoaFisica extends Model
     protected $table = 'clientes_pessoas_fisicas';
     protected $fillable = ['pessoa_fisica_id', 'desconto'];
     public $timestamps = false;
-    protected $tipoPessoa = 'CLIENTE PESSOA FÍSICA';
+    private static string $tipoPessoa  = 'CLIENTE PESSOA FÍSICA';
 
     public function pessoa_fisica()
     {
@@ -21,14 +21,17 @@ class ClientePessoaFisica extends Model
     protected static function boot()
     {
         parent::boot();
+        $tipo_pessoa_loc = static::$tipoPessoa;
 
-        static::created(function ($model) {
-            PessoaTipoService::createPessoaTipo($model, 'pessoa_fisica', $this->tipoPessoa);
+        static::created(function ($model) use ($tipo_pessoa_loc) {
+            PessoaTipoService::createPessoaTipo($model, 'pessoa_fisica', $tipo_pessoa_loc);
         });
 
-        static::deleting(function ($cliente_pessoa_fisica) {
-            $pessoaId = ClientePessoaFisica::find($cliente_pessoa_fisica->id)->load('pessoa_fisica')->pessoa_fisica->pessoa_id;
-            $tipoPessoaId = TipoPessoa::getIdByTipo($this->tipoPessoa); // Obter o tipo_pessoa_id dinamicamente
+        static::deleting(function ($model) use ($tipo_pessoa_loc) {
+            #TODO Trabalhar para abstrair toda essa rotina abaixo
+            $clientePessoaFisicaId = $model->id;
+            $pessoaId = ClientePessoaFisica::find($clientePessoaFisicaId)->load('pessoa_fisica')->pessoa_fisica->pessoa_id;
+            $tipoPessoaId = TipoPessoa::getIdByTipo($tipo_pessoa_loc); // Obter o tipo_pessoa_id dinamicamente
             $service = new PessoaTipoDeletionService();
             $service->deletePessoaTipoRelations($pessoaId, $tipoPessoaId);
         });
