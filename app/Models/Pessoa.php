@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\PessoaService;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +14,22 @@ class Pessoa extends Model
     protected $table = 'pessoas';
     protected $fillable = ['status_id', 'nome', 'logradouro', 'numero', 'bairro', 'cidade', 'uf', 'complemento', 'cep', 'ibge', 'telefone', 'celular', 'email'];
     public $timestamps = false;
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        /* Durante a criação da instância da classe Pessoa, verifica */
+        static::creating(function ($model) {
+            if (empty($model->nome)) {
+                throw new Exception("O nome é obrigatório.");
+            }
+
+            if (empty($model->status_id)) {
+                throw new Exception("O status é obrigatório.");
+            }
+        });
+    }
 
     /* Relacionamento pertence-a com Status */
     public function status()
