@@ -12,12 +12,7 @@ class PessoaController extends Controller
      */
     public function index()
     {
-        $pessoa = Pessoa::with('status'
-        )->with(['tipos_pessoas'=> function($query){
-            $query->select('tipo');
-        }])->with('pessoa_fisica.funcionario.medico')->find(3);
-
-        dd($pessoa);
+        dd("Index { success }");
 
         return view('pessoas.pessoa-index', compact('pessoa'));
     }
@@ -35,8 +30,25 @@ class PessoaController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request);
-        Pessoa::create();
+        // 1. Validação dos Dados
+        $validatedData = $request->validate([
+            'status_id' => 'required|integer|exists:status,id',
+            'nome' => 'required|string|max:80',
+            'email' => 'required|email|max:100|unique:pessoas,email',
+            'logradouro' => 'nullable|string|max:80',
+            'numero' => 'nullable|string|max:10',
+            'bairro' => 'nullable|string|max:50',
+            'cidade' => 'nullable|string|max:100',
+            'uf' => 'nullable|string|size:2',
+            'cep' => 'nullable|string|max:10',
+            'telefone' => 'nullable|string|max:20',
+        ]);
+
+        // 2. Criação e Salvamento usando Atribuição em Massa
+        Pessoa::create($validatedData);
+
+        // 3. Redirecionamento com Mensagem de Sucesso
+        return redirect()->route('pessoas.index')->with('success', 'Pessoa criada com sucesso!');
     }
 
     /**

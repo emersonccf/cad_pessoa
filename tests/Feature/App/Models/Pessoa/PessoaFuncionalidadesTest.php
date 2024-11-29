@@ -4,11 +4,12 @@ namespace Tests\Feature\App\Models\Pessoa;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class PessoaFuncionalidadesTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase, WithFaker, WithoutMiddleware;
 
     protected function setUp(): void
     {
@@ -35,16 +36,20 @@ class PessoaFuncionalidadesTest extends TestCase
             'telefone' => '11999999999',
         ];
 
-        // Passo 2: Enviar uma requisição para criar a pessoa
-        $response = $this->post(route('pessoas.store'), $dadosPessoa);
+        // Passo 2: Enviar uma requisição para criar a pessoa e Incluir o token CSRF na requisição
+        $response = $this->post(route('pessoas.store'), $dadosPessoa, ['X-CSRF-TOKEN' => csrf_token()]);
 
-        // Passo 3: Verificar se a resposta HTTP está correta (ex: 201 Created)
-        $response->assertStatus(201);
+        // Passo 3: Verificar se a resposta HTTP está correta (ex: 302 Found)
+        $response->assertStatus(302);
 
         // Passo 4: Verificar se a pessoa foi salva no banco de dados
         $this->assertDatabaseHas('pessoas', [
             'nome' => 'João Silva',
             'email' => 'joao.silva@example.com',
         ]);
+
+        // Verificar se o redirecionamento ocorreu para a rota correta
+        $response->assertRedirect(route('pessoas.index'));
+
     }
 }
