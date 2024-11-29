@@ -7,7 +7,7 @@ use Mockery;
 use PHPUnit\Framework\TestCase;
 use App\Models\Pessoa;
 
-class PessoaTest extends TestCase
+class PessoaUnidadeTest extends TestCase
 {
 
     /**
