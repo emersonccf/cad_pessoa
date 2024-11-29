@@ -36,7 +36,7 @@ class PessoaFuncionalidadesTest extends TestCase
         ];
 
         // Passo 2: Enviar uma requisição para criar a pessoa
-        $response = $this->post('/pessoas', $dadosPessoa);
+        $response = $this->post(route('pessoas.store'), $dadosPessoa);
 
         // Passo 3: Verificar se a resposta HTTP está correta (ex: 201 Created)
         $response->assertStatus(201);
