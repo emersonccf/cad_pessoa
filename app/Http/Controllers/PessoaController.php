@@ -12,9 +12,9 @@ class PessoaController extends Controller
      */
     public function index()
     {
-        dd("Index { success }");
+        $pessoas = Pessoa::with(['status', 'tipos_pessoas'])->get();
 
-        return view('pessoas.pessoa-index', compact('pessoa'));
+        return view('pessoas.pessoa-index', compact('pessoas'));
     }
 
     /**
