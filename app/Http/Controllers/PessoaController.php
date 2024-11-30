@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePessoaRequest;
 use App\Models\Pessoa;
 use Illuminate\Http\Request;
 
@@ -28,21 +29,10 @@ class PessoaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePessoaRequest $request)
     {
         // 1. Validação dos Dados
-        $validatedData = $request->validate([
-            'status_id' => 'required|integer|exists:status,id',
-            'nome' => 'required|string|max:80',
-            'email' => 'required|email|max:100|unique:pessoas,email',
-            'logradouro' => 'nullable|string|max:80',
-            'numero' => 'nullable|string|max:10',
-            'bairro' => 'nullable|string|max:50',
-            'cidade' => 'nullable|string|max:100',
-            'uf' => 'nullable|string|size:2',
-            'cep' => 'nullable|string|max:10',
-            'telefone' => 'nullable|string|max:20',
-        ]);
+        $validatedData = $request->validated();
 
         // 2. Criação e Salvamento usando Atribuição em Massa
         Pessoa::create($validatedData);

@@ -28,11 +28,14 @@
 <div class="content">
     <!-- Conteúdo principal da página -->
     <ul>
-    @foreach($pessoas as $pessoa)
+    @forelse ($pessoas as $pessoa)
             <li>ID: {{$pessoa->id}} -><span style="font-weight: bold"> {{ $pessoa->nome }}</span> <> {{ $pessoa->status->status  }} <span style="color: blue">||
             {{-- Pluck extrai os nomes dos tipos e implode junta eles em uma string --}}
             {{ $pessoa->tipos_pessoas->pluck('tipo')->implode(', ') }}||</span> </li>
-    @endforeach
+        @empty
+            <p style="font-weight: bold; color: #336699"> Não exitem Registros de pessoas a serem exibido!</p>
+    @endforelse
+
     </ul>
 
 </div>
