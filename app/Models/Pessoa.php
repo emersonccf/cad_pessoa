@@ -6,6 +6,10 @@ use App\Services\PessoaService;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Pessoa extends Model
 {
@@ -32,25 +36,25 @@ class Pessoa extends Model
     }
 
     /* Relacionamento pertence-a com Status */
-    public function status()
+    public function status() : BelongsTo
     {
         return $this->belongsTo(Status::class, 'status_id');
     }
 
     /* Relacionamento pertence-a-muitos com TipoPessoa */
-    public function tipos_pessoas()
+    public function tipos_pessoas() : BelongsToMany
     {
         return $this->belongsToMany(TipoPessoa::class, 'pessoas_tipos', 'pessoa_id', 'tipo_pessoa_id');
     }
 
     /* Relacionamento tem-um com PessoaFisica  */
-    public function pessoa_fisica()
+    public function pessoa_fisica() : HasOne
     {
         return $this->hasOne(PessoaFisica::class, 'pessoa_id');
     }
 
     /* Relacionamento tem-um com PessoaJuridica  */
-    public function pessoa_juridica()
+    public function pessoa_juridica() : HasOne
     {
         return $this->hasOne(PessoaJuridica::class, 'pessoa_id');
     }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Cache;
 
 class TipoPessoa extends Model
@@ -14,9 +15,9 @@ class TipoPessoa extends Model
     protected $fillable = ['tipo', 'descricao'];
     public $timestamps = false;
 
-    public function pessoas()
+    public function pessoas() : BelongsToMany
     {
-        return $this->belongsToMany(Pessoa::class);
+        return $this->belongsToMany(Pessoa::class, 'pessoas_tipos', 'tipo_pessoa_id', 'pessoa_id');
     }
 
     /* Método para obter o ID do tipo de pessoa pelo nome, com cache */

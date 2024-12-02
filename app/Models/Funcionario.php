@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Services\PessoaTipoDeletionService;
 use App\Services\PessoaTipoService;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -16,17 +18,17 @@ class Funcionario extends Model
     public $timestamps = false;
     private static string $tipoPessoa= 'FUNCIONÁRIO';
 
-    public function pessoa_fisica()
+    public function pessoa_fisica() : BelongsTo
     {
         return $this->belongsTo(PessoaFisica::class);
     }
 
-    public function vendedor()
+    public function vendedor() : HasOne
     {
         return $this->hasOne(Vendedor::class);
     }
 
-    public function medico()
+    public function medico() : HasOne
     {
         return $this->hasOne(Medico::class);
     }

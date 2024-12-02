@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Services\PessoaTipoDeletionService;
 use App\Services\PessoaTipoService;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ClientePessoaFisica extends Model
 {
@@ -13,7 +14,7 @@ class ClientePessoaFisica extends Model
     public $timestamps = false;
     private static string $tipoPessoa  = 'CLIENTE PESSOA FÍSICA';
 
-    public function pessoa_fisica()
+    public function pessoa_fisica() : BelongsTo
     {
         return $this->belongsTo(PessoaFisica::class);
     }
