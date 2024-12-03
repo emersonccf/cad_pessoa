@@ -39,8 +39,9 @@ class PessoaUpdateTest extends TestCase
         // Passo 3: Enviar uma requisição para atualizar a pessoa
         $response = $this->put(route('pessoas.update', $pessoa), $dadosAtualizados);
 
-        // Passo 4: Verificar se a resposta HTTP está correta (ex: 200 OK)
-        $response->assertStatus(200);
+        // Passo 4: Verificar se a resposta HTTP está correta (ex: 302 OK)
+        $response->assertStatus(302);
+        $response->assertRedirect(route('pessoas.index')); //e se o redirecionamento foi para a página index de pessoas
 
         // Passo 5: Verificar se os dados da pessoa foram atualizados no banco de dados
         $this->assertDatabaseHas('pessoas', [

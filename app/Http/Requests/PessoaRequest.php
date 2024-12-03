@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePessoaRequest extends FormRequest
+class PessoaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,9 @@ class StorePessoaRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'status_id' => 'required|integer|exists:status,id',
+        // Verifica se o método HTTP é POST (criação) ou PUT/PATCH (atualização)
+        $rules =  [
+            //'status_id' => 'required|integer|exists:status,id',
             'nome' => 'required|string|max:80',
             'email' => 'required|email|max:100|unique:pessoas,email',
             'logradouro' => 'nullable|string|max:80',
@@ -36,6 +37,13 @@ class StorePessoaRequest extends FormRequest
             //'cpf' => ['nullable', new ValidarCpf], // Aplicando a regra de validação CPF
             //'cnpj' => ['nullable', new ValidarCnpj], // Aplicando a regra de validação CNPJ
         ];
+
+        // Adiciona a regra 'status_id' apenas se for uma requisição de criação
+        if ($this->isMethod('post')) {
+            $rules['status_id'] = 'required|integer|exists:status,id';
+        }
+
+        return $rules;
     }
 
     public function messages(): array

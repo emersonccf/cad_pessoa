@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePessoaRequest;
+use App\Http\Requests\PessoaRequest;
 use App\Models\Pessoa;
-use Illuminate\Http\Request;
 
 class PessoaController extends Controller
 {
@@ -29,7 +28,7 @@ class PessoaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePessoaRequest $request)
+    public function store(PessoaRequest $request)
     {
         // 1. Validação dos Dados
         $validatedData = $request->validated();
@@ -60,7 +59,7 @@ class PessoaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StorePessoaRequest $request, Pessoa $pessoa)
+    public function update(PessoaRequest $request, Pessoa $pessoa)
     {
         // 1. Validação dos Dados
         $validatedData = $request->validated();
