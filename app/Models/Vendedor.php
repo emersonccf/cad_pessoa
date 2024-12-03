@@ -6,9 +6,13 @@ use App\Services\PessoaTipoDeletionService;
 use App\Services\PessoaTipoService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Vendedor extends Model
 {
+    use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
     protected $table = 'vendedores';
     protected $fillable = ['funcionario_id', 'comissao'];
     public $timestamps = false;

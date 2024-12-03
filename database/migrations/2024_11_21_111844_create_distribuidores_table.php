@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('pessoa_juridica_id')->unique()->constrained('pessoas_juridicas')->onDelete('cascade'); //fk one-to-one
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 

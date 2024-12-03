@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('tipo_pessoa_id')->constrained('tipos_pessoas')->onDelete('cascade');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
+            $table->timestamp('deleted_at')->nullable();
 
             $table->primary(['pessoa_id', 'tipo_pessoa_id']);
         });
