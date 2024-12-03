@@ -60,9 +60,19 @@ class PessoaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Pessoa $pessoa)
+    public function update(StorePessoaRequest $request, Pessoa $pessoa)
     {
-        //
+        // 1. Validação dos Dados
+        $validatedData = $request->validated();
+
+        // Passo 2: Encontrar a pessoa pelo ID
+        // $pessoa = Pessoa::findOrFail($id);
+
+        // 2. Atualiza valores
+        $pessoa->update($validatedData);
+
+        // 3. Redirecionamento com Mensagem de Sucesso
+        return redirect()->route('pessoas.index')->with('success', 'Pessoa atualizada com sucesso!');
     }
 
     /**
