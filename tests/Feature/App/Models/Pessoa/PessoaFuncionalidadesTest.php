@@ -41,6 +41,7 @@ class PessoaFuncionalidadesTest extends TestCase
 
         // Passo 3: Verificar se a resposta HTTP está correta (ex: 302 Found)
         $response->assertStatus(302);
+        $response->assertRedirect(route('pessoas.index')); //e se o redirecionamento foi para a página index de pessoas
 
         // Passo 4: Verificar se a pessoa foi salva no banco de dados
         $this->assertDatabaseHas('pessoas', [

@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
-class PessoaValidacaoFuncionalidadesTeste extends TestCase
+class PessoaValidacaoFuncionalidadesTest extends TestCase
 {
     use RefreshDatabase, WithFaker, WithoutMiddleware;
 
@@ -17,7 +17,7 @@ class PessoaValidacaoFuncionalidadesTeste extends TestCase
         $dadosIncompletos = [
             // 'status_id' está ausente
             'nome' => '', // Campo obrigatório vazio
-            //'email' => '',
+            'email' => '',
             // Outros campos podem estar presentes ou ausentes, conforme necessário
         ];
 
@@ -25,7 +25,7 @@ class PessoaValidacaoFuncionalidadesTeste extends TestCase
         $response = $this->post(route('pessoas.store'), $dadosIncompletos);
 
         // Verificar se a resposta HTTP é 302, indicando redirecionamento devido a falha de validação
-        // $response->assertStatus(302);
+        $response->assertStatus(302);
 
         // Verificar se os erros de validação são retornados para os campos obrigatórios
         $response->assertSessionHasErrors([
