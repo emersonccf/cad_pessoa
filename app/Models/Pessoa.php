@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -61,7 +60,7 @@ class Pessoa extends Model
         return $this->hasOne(PessoaJuridica::class, 'pessoa_id');
     }
 
-    public function getDefinedRelations()
+    public function getDefinedRelations() : array
     {
         return [
             'pf_cpf' => 'pessoa_fisica.cliente_pessoa_fisica',

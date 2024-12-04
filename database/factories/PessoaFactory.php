@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Status;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +17,12 @@ class PessoaFactory extends Factory
      */
     public function definition(): array
     {
+        $nome = $this->faker->unique()->firstName() . " " . $this->faker->unique()->lastName();
+        $status = Status::create(['status' => 'ATIVO']);
         return [
-            //
+            'status_id' => $status->id,
+            'nome'  =>  $nome,
+            'email' => tornarEmail(converteParaSlug($nome,'.'), $this->faker->domainName()),
         ];
     }
 }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PessoaRequest;
 use App\Models\Pessoa;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class PessoaController extends Controller
 {
@@ -77,8 +79,31 @@ class PessoaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pessoa $pessoa)
+    public function destroy(int $id)
     {
-        //
+        // Encontra a pessoa incluindo os registros excluídos logicamente
+        $pessoa = Pessoa::withTrashed()->findOrFail($id);
+
+        // Realiza a exclusão física
+        $pessoa->forceDelete();
+
+        // Redirecionamento com Mensagem de Sucesso
+        return redirect()->route('pessoas.index')->with('success', 'Pessoa excluída fisicamente com sucesso');
+    }
+
+
+    /**
+     * Remove uma pessoa específica de forma logica
+     */
+    public function delete_logico(int $id)
+    {
+        // Encontra a pessoa pelo ID
+        $pessoa = Pessoa::findOrFail($id);
+
+        // Realiza a exclusão lógica
+        $pessoa->delete();
+
+        // Redirecionamento com Mensagem de Sucesso
+        return redirect()->route('pessoas.index')->with('success', 'Pessoa excluída logicamente com sucesso.');
     }
 }
